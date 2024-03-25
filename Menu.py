@@ -29,6 +29,7 @@ class RoundedMenuApp:
         self.draw_rounded_corners()
         self.create_youtube_button()
         self.create_license_button()  # Added the license button
+        self.create_update_button()   # Added the update button
 
         # Create a label to display the time
         self.time_label = tk.Label(self.root, text="", font=("Arial", 12))
@@ -58,11 +59,21 @@ class RoundedMenuApp:
         license_button = tk.Button(self.root, text="License", command=self.open_license)
         license_button.place(relx=0, rely=1, anchor="sw")
 
+    def create_update_button(self):
+        update_button = tk.Button(self.root, text="Проверить обновление", command=self.open_update)
+        update_button.place(relx=0.5, rely=0.5, anchor="center")
+
     async def async_open_license(self):
         await asyncio.create_subprocess_exec('python', 'License-agreement.py')
 
+    async def async_open_update(self):
+        await asyncio.create_subprocess_exec('python', 'check-the-update.py')
+
     def open_license(self):
         asyncio.run(self.async_open_license())  # Run the async function in a synchronous context
+
+    def open_update(self):
+        asyncio.run(self.async_open_update())  # Run the async function in a synchronous context
 
     def open_youtube(self):
         webbrowser.open_new_tab("https://www.youtube.com/")
