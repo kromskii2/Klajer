@@ -8,7 +8,7 @@ class RoundedMenuApp:
         self.corner_radius = corner_radius
 
         self.root = tk.Tk()
-        self.root.title("Rounded Menu")
+        self.root.title("Klajer")  # Изменено название приложения
 
         # Get the screen width and height
         screen_width = self.root.winfo_screenwidth()
