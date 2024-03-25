@@ -1,6 +1,8 @@
 import tkinter as tk
 import webbrowser
 import time
+import asyncio
+import subprocess
 
 class RoundedMenuApp:
     def __init__(self, width, height, corner_radius):
@@ -9,7 +11,7 @@ class RoundedMenuApp:
         self.corner_radius = corner_radius
 
         self.root = tk.Tk()
-        self.root.title("Klajer")  # Изменено название приложения
+        self.root.title("Klajer")  # Changed the title of the application
 
         # Get the screen width and height
         screen_width = self.root.winfo_screenwidth()
@@ -26,12 +28,13 @@ class RoundedMenuApp:
 
         self.draw_rounded_corners()
         self.create_youtube_button()
+        self.create_license_button()  # Added the license button
 
-        # Создаем метку для отображения времени
+        # Create a label to display the time
         self.time_label = tk.Label(self.root, text="", font=("Arial", 12))
         self.time_label.place(relx=0.5, rely=1, anchor="s")
 
-        # Запускаем обновление времени
+        # Start updating time
         self.update_time()
 
     def draw_rounded_corners(self):
@@ -51,18 +54,28 @@ class RoundedMenuApp:
         youtube_button = tk.Button(self.root, text="YouTube", command=self.open_youtube)
         youtube_button.place(relx=1, rely=1, anchor="se")
 
+    def create_license_button(self):
+        license_button = tk.Button(self.root, text="License", command=self.open_license)
+        license_button.place(relx=0, rely=1, anchor="sw")
+
+    async def async_open_license(self):
+        await asyncio.create_subprocess_exec('python', 'License-agreement.py')
+
+    def open_license(self):
+        asyncio.run(self.async_open_license())  # Run the async function in a synchronous context
+
     def open_youtube(self):
         webbrowser.open_new_tab("https://www.youtube.com/")
 
     def update_time(self):
         current_time = time.strftime("%H:%M:%S")
         self.time_label.config(text=current_time)
-        self.root.after(1000, self.update_time)  # Обновляем время каждую секунду
+        self.root.after(1000, self.update_time)  # Update time every second
 
     def run(self):
         self.root.mainloop()
 
 
-# Создаем и запускаем приложение
+# Create and run the application
 app = RoundedMenuApp(width=646, height=396, corner_radius=30)
 app.run()
