@@ -1,5 +1,6 @@
 import tkinter as tk
 import webbrowser
+import time
 
 class RoundedMenuApp:
     def __init__(self, width, height, corner_radius):
@@ -26,6 +27,13 @@ class RoundedMenuApp:
         self.draw_rounded_corners()
         self.create_youtube_button()
 
+        # Создаем метку для отображения времени
+        self.time_label = tk.Label(self.root, text="", font=("Arial", 12))
+        self.time_label.place(relx=0.5, rely=1, anchor="s")
+
+        # Запускаем обновление времени
+        self.update_time()
+
     def draw_rounded_corners(self):
         x0, y0 = 0, 0
         x1, y1 = self.width, self.height
@@ -46,10 +54,15 @@ class RoundedMenuApp:
     def open_youtube(self):
         webbrowser.open_new_tab("https://www.youtube.com/")
 
+    def update_time(self):
+        current_time = time.strftime("%H:%M:%S")
+        self.time_label.config(text=current_time)
+        self.root.after(1000, self.update_time)  # Обновляем время каждую секунду
+
     def run(self):
         self.root.mainloop()
 
 
-# Create and run the application
+# Создаем и запускаем приложение
 app = RoundedMenuApp(width=646, height=396, corner_radius=30)
 app.run()
