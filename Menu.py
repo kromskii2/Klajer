@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import webbrowser
 
 class RoundedMenuApp:
     def __init__(self, width, height, corner_radius):
@@ -15,6 +15,7 @@ class RoundedMenuApp:
         self.canvas.pack()
 
         self.draw_rounded_corners()
+        self.create_youtube_button()  # Создание кнопки YouTube
 
     def draw_rounded_corners(self):
         x0, y0 = 0, 0
@@ -28,6 +29,13 @@ class RoundedMenuApp:
                                outline="white")
         self.canvas.create_arc(x1 - radius * 2, y1 - radius * 2, x1, y1, start=270, extent=90, fill="white",
                                outline="white")
+
+    def create_youtube_button(self):
+        youtube_button = tk.Button(self.root, text="YouTube", command=self.open_youtube)
+        youtube_button.place(relx=1, rely=1, anchor="se")
+
+    def open_youtube(self):
+        webbrowser.open_new_tab("https://www.youtube.com/")  # Открыть ссылку в браузере в новой вкладке
 
     def run(self):
         self.root.mainloop()
